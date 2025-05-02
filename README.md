@@ -1,5 +1,5 @@
 # MWAD_EX05_image-carousel-in-react
-## Date:
+## Date:2.05.2025
 
 ## AIM
 To create a Image Carousel using React 
@@ -39,6 +39,94 @@ Use setInterval to call the nextImage() function at regular intervals.
 Clean up the interval when the component unmounts using clearInterval to prevent memory leaks.
 
 ## PROGRAM
+ImageCarousel.js
+```
+import React, { useState, useEffect } from 'react';
+import './ImageCarousel.css';
+
+// Import local images
+import img1 from './images/img1.jpg';
+
+const images = [img1];
+
+const ImageCarousel = () => {
+  const [index, setIndex] = useState(0);
+
+  const nextImage = () => {
+    setIndex((index + 1) % images.length);
+  };
+
+  const prevImage = () => {
+    setIndex((index - 1 + images.length) % images.length);
+  };
+
+  useEffect(() => {
+    const timer = setInterval(nextImage, 3000);
+    return () => clearInterval(timer);
+  }, [index]);
+
+  return (
+    <div className="carousel-container">
+      <img src={images[index]} alt={`Slide ${index + 1}`} className="carousel-image" />
+      <div className="buttons">
+        <button onClick={prevImage}>Previous</button>
+        <button onClick={nextImage}>Next</button>
+      </div>
+    </div>
+  );
+};
+
+export default ImageCarousel;
+```
+ImageCarousel.css
+```
+.carousel-container {
+  width: 600px;
+  margin: 40px auto;
+  text-align: center;
+}
+
+.carousel-image {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.buttons {
+  margin-top: 15px;
+}
+
+button {
+  padding: 10px 20px;
+  margin: 0 10px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+```
+App.js
+```
+import React from 'react';
+import ImageCarousel from './ImageCarousel';
+
+function App() {
+  return (
+    <div>
+      <h2 style={{ textAlign: 'center' }}>Image Carousel (Local Images)</h2>
+      <ImageCarousel />
+    </div>
+  );
+}
+
+export default App;
+```
 
 
 ## OUTPUT

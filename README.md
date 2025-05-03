@@ -39,38 +39,69 @@ Use setInterval to call the nextImage() function at regular intervals.
 Clean up the interval when the component unmounts using clearInterval to prevent memory leaks.
 
 ## PROGRAM
-ImageCarousel.js
+ImageCarousel.jsx
 ```
-import React, { useState, useEffect } from 'react';
-import './ImageCarousel.css';
+import React, {useState, useEffect} from 'react';
+import img1 from './assets/img1.png';
 
-// Import local images
-import img1 from './images/img1.jpg';
-
-const images = [img1];
 
 const ImageCarousel = () => {
-  const [index, setIndex] = useState(0);
+  const images = [img1];
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const nextImage = () => {
-    setIndex((index + 1) % images.length);
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
   };
 
   const prevImage = () => {
-    setIndex((index - 1 + images.length) % images.length);
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
   };
 
   useEffect(() => {
-    const timer = setInterval(nextImage, 3000);
-    return () => clearInterval(timer);
-  }, [index]);
+    const interval = setInterval(nextImage, 3000);
+    return () => clearInterval(interval); 
+  }, [currentIndex]);
 
   return (
-    <div className="carousel-container">
-      <img src={images[index]} alt={`Slide ${index + 1}`} className="carousel-image" />
-      <div className="buttons">
-        <button onClick={prevImage}>Previous</button>
-        <button onClick={nextImage}>Next</button>
+    <div style={{ textAlign: 'center', marginTop: '20px' }}>
+      <h3>Image Carousel</h3>
+      <img
+        src={images[currentIndex]}
+        alt={'carousel-${currentIndex}'}
+        width="400"
+        height="200"
+        style={{ borderRadius: '10px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)' }}
+      />
+      <div style={{ marginTop: '12px' }}>
+        <button
+          onClick={prevImage}
+          style={{
+            padding: '8px 16px',
+            fontSize: '14px',
+            backgroundColor: '#4CAF50',
+            color: 'white',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer'
+          }}
+        >
+          Previous
+        </button>
+        <button
+          onClick={nextImage}
+          style={{
+            marginLeft: '10px',
+            padding: '8px 16px',
+            fontSize: '14px',
+            backgroundColor: '#2196F3',
+            color: 'white',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer'
+          }}
+        >
+          Next
+        </button>
       </div>
     </div>
   );
@@ -78,48 +109,16 @@ const ImageCarousel = () => {
 
 export default ImageCarousel;
 ```
-ImageCarousel.css
-```
-.carousel-container {
-  width: 600px;
-  margin: 40px auto;
-  text-align: center;
-}
-
-.carousel-image {
-  width: 100%;
-  height: auto;
-  border-radius: 10px;
-}
-
-.buttons {
-  margin-top: 15px;
-}
-
-button {
-  padding: 10px 20px;
-  margin: 0 10px;
-  font-size: 16px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-```
-App.js
+App.jsx
 ```
 import React from 'react';
+import './App.css';
 import ImageCarousel from './ImageCarousel';
 
 function App() {
   return (
-    <div>
-      <h2 style={{ textAlign: 'center' }}>Image Carousel (Local Images)</h2>
+    <div className="App">
+      <h1>React Image Carousel</h1>
       <ImageCarousel />
     </div>
   );
@@ -128,8 +127,9 @@ function App() {
 export default App;
 ```
 
-
 ## OUTPUT
+
+![Screenshot 2025-05-03 091807](https://github.com/user-attachments/assets/8ea36ea8-09b3-455a-9cf7-89f2a4c39171)
 
 
 ## RESULT
